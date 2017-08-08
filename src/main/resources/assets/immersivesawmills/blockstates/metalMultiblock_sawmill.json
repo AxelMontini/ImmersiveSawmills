@@ -1,0 +1,73 @@
+{
+  "forge_marker": 1,
+  "defaults":
+  {
+    "transform": "forge:default-block",
+    "custom": { "flip-v": true },
+    "textures": {
+
+    }
+  },
+  "variants":
+  {
+    "inventory,type=sawmill": [{
+      "model": "immersivesawmills:metalMultiblock/sawmill.obj",
+      "transform": {
+        "scale": 0.25,
+        "rotation": [
+          {
+            "x": 20
+          },
+          {
+            "y": -45
+          }
+        ]
+      }
+    }],
+    "type":
+    {
+      "sawmill": {
+      }
+    },
+    "facing":
+    {
+      "north": { "transform": {
+        "rotation": {"y": 0 },
+        "translation": [0, 0, 1]
+      }},
+      "south": { "transform": {
+        "rotation": {"y": 180 },
+        "translation": [0, 0, -1]
+      }},
+      "west": { "transform": {
+        "rotation": {"y": 90 },
+        "translation": [1, 0, 0]
+      }},
+      "east": { "transform": {
+        "rotation": {"y": -90 },
+        "translation": [-1, 0, 0]
+      }}
+    },
+    "_0multiblockslave":
+    {
+      "false":{},
+      "true":{
+        "model": "builtin/generated"
+      }
+    },
+    "_1dynamicrender":
+  {
+    "false":{
+      "model": "immersivesawmills:metalMultiblock/sawmill.obj"
+    },
+    "true":{
+      "model": "immersivesawmills:metalMultiblock/sawmill.obj"
+    }
+  },
+    "boolean0":
+    {
+      "false":{},
+      "true":{}
+    }
+  }
+}

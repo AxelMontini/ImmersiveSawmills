@@ -1,4 +1,4 @@
-package am.immersivesawmills.common.block;
+package axelmontini.immersivesawmills.common.blocks;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.ITileEntityProvider;

@@ -2,15 +2,14 @@
 {
     "modid": "immersivesawmills",
     "name": "Immersive Sawmills",
-    "description": "Trouble with wood? You'd prefer a more efficient way to obtain and process logs? This mod may be right for you.",
+    "description": "Adds more ways to use wood.",
     "version": "${version}",
-    "mcversion": "1.10.2",
+    "mcversion": "${mcversion}",
     "url": "",
     "updateUrl": "",
-    "authorList": ["Axel Montini <axel.montini@gmail.com>"],
-    "credits": "-The Forge/FML guys, their work is essential for Minecraft itself and the modding community.\n-Everybody who contributed to this mod and to Immersive Engineering.",
+    "authorList": ["Axel Montini"],
+    "credits": "",
     "logoFile": "",
-    "screenshots": [],
-    "dependencies": ["immersiveengineering"]
+    "screenshots": []
 }
 ]

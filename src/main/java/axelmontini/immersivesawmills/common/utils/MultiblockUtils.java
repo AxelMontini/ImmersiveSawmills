@@ -1,4 +1,4 @@
-package am.immersivesawmills.common.utils;
+package axelmontini.immersivesawmills.common.utils;
 
 import blusunrize.immersiveengineering.api.MultiblockHandler;
 import net.minecraft.block.Block;
@@ -46,7 +46,7 @@ public class MultiblockUtils {
                     //CheckState from check offset
                     checkState = world.getBlockState( origin.offset(UP, h).offset(direction, l).offset(dirWidth, w) );
                     //If the check returned "air" and the structure contains "null", this is right (Allocating an array full of AIR blocks may be worse than just solid blocks
-                    if(checkState == null && structure[h][l][w] == null)
+                    if(checkState.getBlock().isAssociatedBlock(Blocks.AIR) && structure[h][l][w] == null)
                         continue;
                     //Structure must be empty but there is something (only if no overlap allowed)
                     else if( (( structure[h][l][w] == null ) && !( checkState.getBlock() == Blocks.AIR )) && !allowOverlaps )
@@ -74,5 +74,48 @@ public class MultiblockUtils {
      * @return true only if the structure is right.*/
     public static final boolean isStructureRight(World world, BlockPos origin, EnumFacing direction, ItemStack[][][] structure) {
         return isStructureRight(world, origin, direction, structure, false);
+    }
+
+    /**Get the position (the block count) from the origin (format noted in Notes.md), counting Width, Length and then Height
+     * @param target the BlockPos's position to be returned
+     * @return the position, or -1 if it couldn't be found.*/
+    public static int getPosOfBlockInStructure(World world, BlockPos origin, EnumFacing direction, ItemStack[][][] structure, BlockPos target) {
+        if(world.isAirBlock(target))
+            return -1;  //Return if the target block is air = not part of the structure
+
+        if(direction == UP || direction == DOWN || direction == null)
+            throw new IllegalArgumentException("Provided EnumFacing is vertical or null and this is not allowed!");
+        else if(structure == null)
+            throw new IllegalArgumentException("The structure is null!");
+        else if(structure.length == 0)
+            throw new IllegalArgumentException("Provided structure is 0 blocks wide!");
+        else if(structure[0].length == 0)
+            throw new IllegalArgumentException("Provided structure is 0 blocks long!");
+        else if(structure[0][0].length == 0)
+            throw new IllegalArgumentException("Provided structure is 0 blocks tall!");
+
+        IBlockState checkState;
+
+        //Width direction (left to right) (origin is bottom front left corner)
+        final EnumFacing dirWidth = direction == NORTH ? EAST : direction==EAST ? SOUTH : direction==SOUTH ? WEST : direction==WEST ? NORTH : null;
+
+        int position = 0;
+
+        final int[] lMax = ArrayUtils.getMaxLength(structure);
+
+        for(int h=0; h<lMax[0]; h++) {
+            for(int l=0; l<lMax[1]; l++) {
+                for(int w=0; w<lMax[2]; w++,position++) {   //Position increment on FOR method! old way caused problems A LOT
+                    //CheckState from check offset
+                    BlockPos check = origin.offset(UP, h).offset(direction, l).offset(direction.rotateY(), w);
+                    if(structure[h][l][w] == null)
+                        continue;   //If air, continue without counting
+                    else if(check.equals(target))
+                        return position;
+                }
+            }
+        }
+
+        return -1;
     }
 }

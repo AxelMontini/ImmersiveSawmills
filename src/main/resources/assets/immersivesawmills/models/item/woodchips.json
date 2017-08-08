@@ -1,0 +1,6 @@
+{
+  "parent":"immersivesawmills:item/isItemBase",
+  "textures": {
+    "layer0":"immersivesawmills:items/woodchips"
+  }
+}
