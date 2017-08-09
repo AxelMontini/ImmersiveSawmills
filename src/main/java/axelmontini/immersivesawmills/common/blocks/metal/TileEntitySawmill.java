@@ -26,13 +26,16 @@ import net.minecraftforge.items.IItemHandler;
 
 import javax.annotation.Nonnull;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import static net.minecraft.util.EnumFacing.*;
 
 
 public class TileEntitySawmill extends TileEntityMultiblockMetal<TileEntitySawmill, SawmillRecipe> implements IEBlockInterfaces.ISoundTile, ConveyorHandler.IConveyorAttachable {
 
     public TileEntitySawmill() {
-        super(MultiblockSawmill.instance, new int[] {4,4,3}, 16000, true);
+        super(MultiblockSawmill.instance, new int[] {2,4,2}, 16000, true);
     }
 
     @Override
@@ -40,22 +43,14 @@ public class TileEntitySawmill extends TileEntityMultiblockMetal<TileEntitySawmi
         return shouldRenderAsActive();
     }
 
-   /*@Override
+   @Override
     public void update() {
         super.update();
-        if(isDummy()||isRSDisabled()||worldObj.isRemote)
-            return;
-        for(MultiblockProcess proc : processQueue) {
-            float tick = 1/(float) proc.maxTicks;
-            float transportTime = 52.5f*tick;
-            float fProcess = proc.processTick*tick;
-
-        }
-    }*/
+    }
 
     @Override
     protected SawmillRecipe readRecipeFromNBT(NBTTagCompound tag) {
-        return null;
+        return SawmillRecipe.loadFromNBT(tag);
     }
 
     @Override
@@ -70,7 +65,7 @@ public class TileEntitySawmill extends TileEntityMultiblockMetal<TileEntitySawmi
 
     @Override
     public IFluidTank[] getInternalTanks() {
-        return new IFluidTank[0];
+        return null;
     }
 
     @Override
@@ -80,17 +75,17 @@ public class TileEntitySawmill extends TileEntityMultiblockMetal<TileEntitySawmi
 
     @Override
     public int[] getOutputSlots() {
-        return new int[0];
+        return null;
     }
 
     @Override
     public int[] getOutputTanks() {
-        return new int[0];
+        return null;
     }
 
     @Override
     public boolean additionalCanProcessCheck(MultiblockProcess<SawmillRecipe> process) {
-        return false;
+        return true;
     }
 
     @Override

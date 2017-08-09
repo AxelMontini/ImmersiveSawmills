@@ -82,4 +82,9 @@ public class SawmillRecipe extends MultiblockRecipe {
     public int getTotalProcessEnergy() {
         return totalProcessEnergy;
     }
+
+    public static SawmillRecipe loadFromNBT(NBTTagCompound nbt) {
+        IngredientStack input = IngredientStack.readFromNBT(nbt.getCompoundTag("input"));
+        return findRecipe(input.stack);
+    }
 }
