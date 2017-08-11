@@ -7,7 +7,8 @@ import java.util.Locale;
 
 
 public enum BlockTypes_MetalMultiblock implements BlockISBase.IBlockEnum, IStringSerializable {
-    SAWMILL(true);
+    SAWMILL(true),
+    BIOMASS_GENERATOR(true);
 
     private boolean needsCustomState;
     BlockTypes_MetalMultiblock(boolean needsCustomState) {this.needsCustomState = needsCustomState;}

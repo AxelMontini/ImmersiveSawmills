@@ -46,11 +46,11 @@ public class MultiblockUtils {
                     //CheckState from check offset
                     checkState = world.getBlockState( origin.offset(UP, h).offset(direction, l).offset(dirWidth, w) );
                     //If the check returned "air" and the structure contains "null", this is right (Allocating an array full of AIR blocks may be worse than just solid blocks
-                    if(checkState.getBlock().isAssociatedBlock(Blocks.AIR) && structure[h][l][w] == null)
+                    if(checkState.getBlock().equals(Blocks.AIR) && structure[h][l][w] == null)
                         continue;
                     //Structure must be empty but there is something (only if no overlap allowed)
-                    else if( (( structure[h][l][w] == null ) && !( checkState.getBlock() == Blocks.AIR )) && !allowOverlaps )
-                        return false;
+                    else if(  structure[h][l][w] == null && allowOverlaps )
+                        continue;
                     //Return false if the block isn't at the right position
                     else if(! checkState.getBlock().equals( Block.getBlockFromItem(structure[h][l][w].getItem()) ))
                         return false;

@@ -2,9 +2,11 @@ package axelmontini.immersivesawmills.common;
 
 import axelmontini.immersivesawmills.ImmersiveSawmills;
 import axelmontini.immersivesawmills.api.crafting.SawmillRecipe;
+import axelmontini.immersivesawmills.api.energy.BiomassHandler;
 import axelmontini.immersivesawmills.common.blocks.BlockISBase;
 import axelmontini.immersivesawmills.common.blocks.metal.BlockMetalMultiblocks;
 import axelmontini.immersivesawmills.common.blocks.metal.TileEntitySawmill;
+import axelmontini.immersivesawmills.common.blocks.multiblock.MultiblockBiomassGenerator;
 import axelmontini.immersivesawmills.common.blocks.multiblock.MultiblockSawmill;
 import axelmontini.immersivesawmills.common.items.ItemWoodchips;
 import blusunrize.immersiveengineering.api.MultiblockHandler;
@@ -38,9 +40,9 @@ public class ISContent {
     //Items
     public static Item      itemWoodchips;
     //Blocks
-    public static BlockISBase blockMetalMultiblock;
+    public static BlockISBase   blockMetalMultiblock;
 
-    /**Fuel Handler*/
+    /**FuelFurnace Handler*/
     public static IFuelHandler isFuelHandler = (ItemStack s) -> {
         if(s.getItem() instanceof IFuel)
             return ((IFuel) s.getItem()).getBurnTime();
@@ -50,23 +52,27 @@ public class ISContent {
 
     public static void preInit(FMLPreInitializationEvent event)
     {
+        //Register Items
         itemWoodchips = new ItemWoodchips();
-
+        //Register blocks
         blockMetalMultiblock = new BlockMetalMultiblocks();
 
-        //Register multiblocks
+        //Register multiblocks through MultiblockHandler
         MultiblockHandler.registerMultiblock(new MultiblockSawmill());
+        MultiblockHandler.registerMultiblock(new MultiblockBiomassGenerator());
     }
 
     public static void init(FMLInitializationEvent event)
     {
+        //Register TileEntities
         registerTile(TileEntitySawmill.class);
-
+        //Register handlers
         GameRegistry.registerFuelHandler(isFuelHandler);
+
     }
 
     public static void postInit(FMLPostInitializationEvent event) {
-        //Cross-mod wood milling recipes
+        //Cross-mod wood sawing recipes
         List<IRecipe> recipeList = CraftingManager.getInstance().getRecipeList();
         recipeList.parallelStream()
                 .filter(recipe -> recipe instanceof ShapedRecipes)  //Filter only shapedrecipes
@@ -82,6 +88,24 @@ public class ISContent {
                             shaped.recipeItems[0], energyPerLog, timePerLog);
                     ImmersiveSawmills.log.info("Detected wood recipe ({} -> {})! Added variant to Sawmill recipes...", shaped.recipeItems[0], shaped.getRecipeOutput());
                 });
+
+        ImmersiveSawmills.log.debug("Applying biomass burn times for the Biomass Generator...");
+        //Biomass FuelFurnace
+        Config.biomassBurnTimes.forEach(
+                (k, v) -> {
+                    try {
+                        BiomassHandler.registerFuel(new ItemStack(Item.getByNameOrId(k)), v[0], v[1]);
+                    } catch (ArrayIndexOutOfBoundsException e) {
+                        ImmersiveSawmills.log.error("Error while applying biomass burn times! The config file might be malformed!\n\tItem {}, BurnTime {}, EnergyPerTick {}", k, v!=null&&v.length>=1?v[0]:"NULL", v!=null&&v.length>=2?v[1]:"NULL");
+                        e.printStackTrace();
+                    } catch (NullPointerException | IllegalArgumentException e1) {
+                        ImmersiveSawmills.log.error("Error while applying biomass burn times! The config file might be malformed (Probably UNKNOWN ITEM)!\n\tItem {}, BurnTime {}, EnergyPerTick {}", k, v!=null&&v.length>=1?v[0]:"NULL", v!=null&&v.length>=2?v[1]:"NULL");
+                        e1.printStackTrace();
+                    }
+                }
+        );
+        ImmersiveSawmills.log.debug("[DONE] Applied biomass burn times for the Biomass Generator...");
+
 
     }
 

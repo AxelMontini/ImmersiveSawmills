@@ -25,6 +25,8 @@ public class BlockMetalMultiblocks extends BlockISMultiblock<BlockTypes_MetalMul
         switch(BlockTypes_MetalMultiblock.values()[meta]) {
             case SAWMILL:
                 return new TileEntitySawmill();
+            case BIOMASS_GENERATOR:
+                return new TileEntityBiomassGenerator();
         }
         return null;
     }
@@ -40,7 +42,7 @@ public class BlockMetalMultiblocks extends BlockISMultiblock<BlockTypes_MetalMul
                 return true;
             if(te instanceof TileEntitySawmill)
             {
-                return tile.pos!=7 && tile.pos != 1 && tile.pos != 3 && tile.pos != 9 && tile.pos != 11 && tile.pos != 13;
+                return tile.pos!=7 && tile.pos != 1 && tile.pos != 3 && tile.pos != 9 && tile.pos != 11 && tile.pos != 15;
             }
         }
         return super.isSideSolid(state, world, pos, side);

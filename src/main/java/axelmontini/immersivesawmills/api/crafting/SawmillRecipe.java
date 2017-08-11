@@ -3,11 +3,13 @@ package axelmontini.immersivesawmills.api.crafting;
 import blusunrize.immersiveengineering.api.ApiUtils;
 import blusunrize.immersiveengineering.api.crafting.IngredientStack;
 import blusunrize.immersiveengineering.api.crafting.MultiblockRecipe;
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -32,6 +34,11 @@ public class SawmillRecipe extends MultiblockRecipe {
 
         this.outputList = Lists.newArrayList(this.output);
         this.inputList = Lists.newArrayList(this.input);
+    }
+
+    @Override
+    public final List<IngredientStack> getItemInputs() {
+        return Arrays.asList(input);
     }
 
     public static SawmillRecipe addRecipe(ItemStack output, ItemStack woodchips, Object input, int energy, int time) {

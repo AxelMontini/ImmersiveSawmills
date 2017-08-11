@@ -149,9 +149,9 @@ public class MultiblockSawmill implements MultiblockHandler.IMultiblock {
     @Override
     @SideOnly(Side.CLIENT)
     public boolean overwriteBlockRender(ItemStack stack, int iterator) {
-        if(iterator == 5 || iterator == 9) {
+        if(iterator == 8 || iterator == 14) {
             return ImmersiveEngineering.proxy.drawConveyorInGui("immersiveengineering:conveyor", EnumFacing.EAST);
-        } else if(iterator == 8) {
+        } else if(iterator == 13) {
             return ImmersiveEngineering.proxy.drawConveyorInGui("immersiveengineering:conveyor", EnumFacing.SOUTH);
         }
 

@@ -107,7 +107,7 @@ public class TileEntitySawmill extends TileEntityMultiblockMetal<TileEntitySawmi
             output = Utils.insertStackIntoInventory(invTile, output, facing.getOpposite());
         }
         if(output != null) {    //Drop stacks
-            Utils.dropStackAtPos(worldObj, pos, output, facing);
+            Utils.dropStackAtPos(worldObj, pos.offset(facing), output, facing);
         }
     }
 
@@ -122,7 +122,7 @@ public class TileEntitySawmill extends TileEntityMultiblockMetal<TileEntitySawmi
             ItemStack stack = ((EntityItem)entity).getEntityItem();
             if(stack==null)
                 return;
-            IMultiblockRecipe recipe = master.findRecipeForInsertion(stack);
+            SawmillRecipe recipe = master.findRecipeForInsertion(stack);
             if(recipe==null)
                 return;
             ItemStack displayStack = null;
@@ -133,6 +133,7 @@ public class TileEntitySawmill extends TileEntityMultiblockMetal<TileEntitySawmi
                     break;
                 }
             float transformationPoint = 56.25f/(float)recipe.getTotalProcessTime();
+
             MultiblockProcess process = new MultiblockProcessInWorld(recipe, transformationPoint, displayStack);
             if(master.addProcessToQueue(process, true))
             {
@@ -172,19 +173,19 @@ public class TileEntitySawmill extends TileEntityMultiblockMetal<TileEntitySawmi
 
         ItemStack woodchips = null;
 
-        BlockPos pos = getPos().offset(facing, 3);
+        BlockPos pos = getPos().offset(facing, 2).offset(facing.rotateY());
         TileEntity  invTile  = this.worldObj.getTileEntity(pos);
         if(invTile != null) {
             woodchips = Utils.insertStackIntoInventory(invTile, process.recipe.woodchips, facing.rotateYCCW());
         }
         if(woodchips != null) {    //Drop stacks
-            Utils.dropStackAtPos(worldObj, pos, woodchips, facing.rotateY());
+            Utils.dropStackAtPos(worldObj, pos.offset(facing.rotateY()), woodchips, facing.rotateY());
         }
     }
 
     @Override
     public int getMaxProcessPerTick() {
-        return 4;
+        return 2;
     }
 
     @Override
