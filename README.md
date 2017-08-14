@@ -8,9 +8,12 @@ It offers more efficient ways to obtain planks from logs with the *Sawmill*, or 
 way to produce power throgh a *Biomass Generator*, and so on.
 
 A short description: [LONGER DESCRIPTION](./MACHINES.md)
+
 * The Sawmill: a more resource efficient way to convert logs to planks. Outputs
 woodchips too as it saws the wood. Needs energy to run.
+
 * The Woodchipper: creates woodchips from logs or planks.
+
 * The Biomass Generator: burns woodchips to produce energy ~~(air pollution alert)~~.
 Needs a flint&steel or some energy to start up, but the combustion continues until
 the fuel runs out. Keep it running!

@@ -113,4 +113,8 @@ public class BiomassHandler {
     public static int getHeatupTime(ItemStack stack, int energyHeat, boolean calcBySize) {
         return energyHeat>=energyToHeatUp?0:(energyToHeatUp-energyHeat) / (getEnergyPerTick(stack) * (calcBySize?stack.stackSize:1));
     }
+
+    public static HashMap<String, Integer[]> getCurrentFuelMap() {
+        return new HashMap<>(BiomassHandler.biomassGenBurnTime);
+    }
 }

@@ -3,6 +3,7 @@ package axelmontini.immersivesawmills.common.blocks.metal;
 import axelmontini.immersivesawmills.common.blocks.BlockISMultiblock;
 import axelmontini.immersivesawmills.common.blocks.ItemBlockISBase;
 import blusunrize.immersiveengineering.api.IEProperties;
+import blusunrize.immersiveengineering.api.crafting.IngredientStack;
 import blusunrize.immersiveengineering.common.blocks.TileEntityMultiblockPart;
 import blusunrize.immersiveengineering.common.blocks.metal.TileEntityMultiblockMetal;
 import net.minecraft.block.material.Material;
@@ -43,6 +44,9 @@ public class BlockMetalMultiblocks extends BlockISMultiblock<BlockTypes_MetalMul
             if(te instanceof TileEntitySawmill)
             {
                 return tile.pos!=7 && tile.pos != 1 && tile.pos != 3 && tile.pos != 9 && tile.pos != 11 && tile.pos != 15;
+            }
+            if(te instanceof TileEntityBiomassGenerator) {
+                return true;
             }
         }
         return super.isSideSolid(state, world, pos, side);

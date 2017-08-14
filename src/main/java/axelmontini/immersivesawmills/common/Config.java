@@ -1,6 +1,9 @@
 package axelmontini.immersivesawmills.common;
 
 import axelmontini.immersivesawmills.ImmersiveSawmills;
+import axelmontini.immersivesawmills.api.energy.BiomassHandler;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Config.Comment;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
@@ -12,8 +15,6 @@ import java.util.stream.Collectors;
 
 public class Config {
     public static HashMap<String, Integer> burnTimes = new HashMap();
-//    public static List<JSONConfigFile> jsonFiles = new ArrayList();
-    public static HashMap<String, Integer[]> biomassBurnTimes = new HashMap();
 
     @SuppressWarnings("unused")
     @net.minecraftforge.common.config.Config(modid= ImmersiveSawmills.modid)
@@ -54,7 +55,7 @@ public class Config {
                     this.energyPerTick = energyPerTick;
                 }
 
-                public String getNamespacedName() {
+                public String getItemID() {
                     return namespacedName;
                 }
 
@@ -74,13 +75,13 @@ public class Config {
                 public int energyPerTick;
             }
 
-            private static BiomassConfigEntry[] def = new BiomassConfigEntry[] {
-                    new BiomassConfigEntry(ImmersiveSawmills.modid+":woodchips", 20, 300)
+            private static final BiomassConfigEntry[] def = new BiomassConfigEntry[] {
+                    new BiomassConfigEntry("immersivesawmills:woodchips", 20, 450)
             };
 
             @Comment({"Map of fuel values. Format I:\"TextualID\" <\n\tBurnTime\n\tEnergyPerTick\n>"})
             public static Map<String, Integer[]> burnTimes = Arrays.asList(def).parallelStream().collect(Collectors.toMap(
-                    BiomassConfigEntry::getNamespacedName, value -> new Integer[]{value.burnTime, value.energyPerTick}
+                    BiomassConfigEntry::getItemID, value -> new Integer[]{value.burnTime, value.energyPerTick}
             ));
         }
     }
@@ -100,8 +101,6 @@ public class Config {
             System.err.printf("Failed to get burn time of item\"%s\" from Config file.", unlocalizedName);
             e.printStackTrace();
         }
-
-        biomassBurnTimes.putAll(ISConfig.BiomassFuel.burnTimes);
 
         /*//Handle JSON Files
         createDefaultJSONFiles(event.getModConfigurationDirectory());*/

@@ -5,6 +5,7 @@ import axelmontini.immersivesawmills.api.crafting.SawmillRecipe;
 import axelmontini.immersivesawmills.api.energy.BiomassHandler;
 import axelmontini.immersivesawmills.common.blocks.BlockISBase;
 import axelmontini.immersivesawmills.common.blocks.metal.BlockMetalMultiblocks;
+import axelmontini.immersivesawmills.common.blocks.metal.TileEntityBiomassGenerator;
 import axelmontini.immersivesawmills.common.blocks.metal.TileEntitySawmill;
 import axelmontini.immersivesawmills.common.blocks.multiblock.MultiblockBiomassGenerator;
 import axelmontini.immersivesawmills.common.blocks.multiblock.MultiblockSawmill;
@@ -66,9 +67,12 @@ public class ISContent {
     {
         //Register TileEntities
         registerTile(TileEntitySawmill.class);
+        registerTile(TileEntityBiomassGenerator.class);
         //Register handlers
         GameRegistry.registerFuelHandler(isFuelHandler);
 
+        //OreDic
+        OreDictionary.registerOre("chipsWood", ItemWoodchips.instance);
     }
 
     public static void postInit(FMLPostInitializationEvent event) {
@@ -91,7 +95,7 @@ public class ISContent {
 
         ImmersiveSawmills.log.debug("Applying biomass burn times for the Biomass Generator...");
         //Biomass FuelFurnace
-        Config.biomassBurnTimes.forEach(
+        Config.ISConfig.BiomassFuel.burnTimes.forEach(
                 (k, v) -> {
                     try {
                         BiomassHandler.registerFuel(new ItemStack(Item.getByNameOrId(k)), v[0], v[1]);
@@ -105,8 +109,6 @@ public class ISContent {
                 }
         );
         ImmersiveSawmills.log.debug("[DONE] Applied biomass burn times for the Biomass Generator...");
-
-
     }
 
     public static void registerTile(Class<? extends TileEntity> tile)

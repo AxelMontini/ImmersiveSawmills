@@ -117,7 +117,7 @@ public class MultiblockBiomassGenerator implements MultiblockHandler.IMultiblock
                     world.setBlockState(crosshair, ISContent.blockMetalMultiblock.getStateFromMeta(BlockTypes_MetalMultiblock.BIOMASS_GENERATOR.getMeta()));
                     TileEntity toCheck = world.getTileEntity(crosshair);
                     if(toCheck instanceof TileEntityBiomassGenerator) {
-                        TileEntitySawmill tile = (TileEntitySawmill) toCheck;
+                        TileEntityBiomassGenerator tile = (TileEntityBiomassGenerator) toCheck;
                         tile.facing = facing;
                         tile.formed = true;
                         tile.pos = MultiblockUtils.getPosOfBlockInStructure(world, origin, facing, structure, crosshair);
