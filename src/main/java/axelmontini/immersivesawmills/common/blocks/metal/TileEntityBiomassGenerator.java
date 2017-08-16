@@ -1,6 +1,7 @@
 package axelmontini.immersivesawmills.common.blocks.metal;
 
 import axelmontini.immersivesawmills.api.energy.BiomassHandler;
+import axelmontini.immersivesawmills.common.Config;
 import axelmontini.immersivesawmills.common.blocks.multiblock.MultiblockBiomassGenerator;
 import axelmontini.immersivesawmills.common.utils.MultiStackItemStack;
 import blusunrize.immersiveengineering.api.crafting.IMultiblockRecipe;
@@ -45,12 +46,12 @@ public class TileEntityBiomassGenerator extends TileEntityMultiblockMetal<TileEn
     }
 
     /**Max fuel storage*/
-    public final int maxFuel = 128;
+    public final int maxFuel = Config.ISConfig.BiomassFuel.maxFuelStorage;
     /**Fuel queue {burnTime, energyPerTick}*/
     //Fuel converted to {burnTime, energyPerTick} once inserted. Retrievable only if not burned and config not changed
     private final Queue<Integer[]> fuel = new ArrayDeque<>();
     /**Max fuel burning parallel*/
-    public final int maxParallelFuel = 5;
+    public final int maxParallelFuel = Config.ISConfig.BiomassFuel.maxFuelParallel;
     /**Burning fuel. Max length; takes the first fuel*/
     private final int[][] burning = new int[maxParallelFuel][];
 

@@ -79,6 +79,11 @@ public class Config {
                     new BiomassConfigEntry("immersivesawmills:woodchips", 20, 450)
             };
 
+            @Comment({"How big can be the stack of fuel contained by the biomass generator"})
+            public static int maxFuelStorage = 256;
+            @Comment({"How much fuel can burn in parallel: higher value means higher RF output and quicker burn times."})
+            public static int maxFuelParallel = 2;
+
             @Comment({"Map of fuel values. Format I:\"TextualID\" <\n\tBurnTime\n\tEnergyPerTick\n>"})
             public static Map<String, Integer[]> burnTimes = Arrays.asList(def).parallelStream().collect(Collectors.toMap(
                     BiomassConfigEntry::getItemID, value -> new Integer[]{value.burnTime, value.energyPerTick}
