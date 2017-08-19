@@ -1,9 +1,6 @@
 package axelmontini.immersivesawmills.common;
 
 import axelmontini.immersivesawmills.ImmersiveSawmills;
-import axelmontini.immersivesawmills.api.energy.BiomassHandler;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.config.Config.Comment;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
@@ -13,10 +10,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@SuppressWarnings({"unused", "WeakerAccess"})
 public class Config {
-    public static HashMap<String, Integer> burnTimes = new HashMap();
-
-    @SuppressWarnings("unused")
+    public static HashMap<String, Integer> burnTimes = new HashMap<>();
     @net.minecraftforge.common.config.Config(modid= ImmersiveSawmills.modid)
     public static class ISConfig {
         //General config
@@ -36,9 +32,9 @@ public class Config {
             @Comment({"The woodchips production multiplier to apply to immersivesawmills recipes"})
             public static float woodchipsCountMultiplier = 1f;
             @Comment({"Energy used to process 1 log of wood."})
-            public static int energyPerLog = 1000;
+            public static int energyPerLog = 650;
             @Comment({"Time spent to process 1 log of wood (ticks)."})
-            public static int timePerLog = 60;
+            public static int timePerLog = 30;
         }
 
         public static class FuelFurnace {
@@ -111,7 +107,7 @@ public class Config {
         createDefaultJSONFiles(event.getModConfigurationDirectory());*/
     }
 
-/*    *//**@return true if at least a file has been created.*//*
+/*    /**@return true if at least a file has been created.*//*
     private static boolean createDefaultJSONFiles(File configFolder) throws FileNotFoundException {
         if(!configFolder.isDirectory())
             throw new FileNotFoundException("The mod config directory isn't actually a directory? "+configFolder.getAbsolutePath());
