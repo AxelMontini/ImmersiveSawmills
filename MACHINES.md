@@ -18,4 +18,4 @@ Keep it running, since once it's stopped you have to fire it up again.
 The water isn't consumed (for now, maybe going to change).
 The fuel obviously burns fast, so feed the beast quickly (it has an internal storage
 of 128 Woodchips).
-##Woodchipper   //TODO later (test)
+##Woodchipper   //TODO later

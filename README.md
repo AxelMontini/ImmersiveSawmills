@@ -12,7 +12,7 @@ A short description: [LONGER DESCRIPTION](./MACHINES.md)
 * The Sawmill: a more resource efficient way to convert logs to planks. Outputs
 woodchips too as it saws the wood. Needs energy to run.
 
-* The Woodchipper: creates woodchips from logs or planks.
+~~* The Woodchipper: creates woodchips from logs or planks.~~ //TODO create it
 
 * The Biomass Generator: burns woodchips to produce energy ~~(air pollution alert)~~.
 Needs a flint&steel or some energy to start up, but the combustion continues until

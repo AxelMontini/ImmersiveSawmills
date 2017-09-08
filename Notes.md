@@ -10,4 +10,3 @@ or
     * **loop**(*height*)  
        * **loop**(*length*)  
           * **loop**(*width*)
-*
