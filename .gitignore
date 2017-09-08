@@ -19,5 +19,9 @@ build
 
 # other
 eclipse
-run
+/run
+/run/*
 *.blend1
+libs/*
+/DEFAULT_ASSETS
+/classes
