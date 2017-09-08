@@ -1,4 +1,4 @@
-# Immersive Sawmills
+# Immersive Sawmills [WARNING: VERY EARLY DEVELOPMENT VERSION]
 **Immersive Sawmills** is an addon for
 [Immersive Engineering](https://github.com/BluSunrize/ImmersiveEngineering)
 which aims at making wood a better resource.
