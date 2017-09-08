@@ -1,9 +1,11 @@
 package axelmontini.immersivesawmills.client;
 
 import axelmontini.immersivesawmills.ImmersiveSawmills;
+import axelmontini.immersivesawmills.client.render.TileRenderBiomassGenerator;
 import axelmontini.immersivesawmills.client.render.TileRenderSawmill;
 import axelmontini.immersivesawmills.common.CommonProxy;
 import axelmontini.immersivesawmills.common.ISContent;
+import axelmontini.immersivesawmills.common.blocks.metal.TileEntityBiomassGenerator;
 import axelmontini.immersivesawmills.common.blocks.metal.TileEntitySawmill;
 import axelmontini.immersivesawmills.common.items.ItemISBase;
 import blusunrize.immersiveengineering.client.ClientUtils;
@@ -35,7 +37,7 @@ import java.util.Locale;
 public class ClientProxy extends CommonProxy {
     @Override
     public void preInit(FMLPreInitializationEvent e) {
-        ClientUtils.mc().getFramebuffer().enableStencil();//Enabling FBO stencils
+        ClientUtils.mc().getFramebuffer().enableStencil();//Enabling FBO stencils TODO Verify usefulness and decide if keep or remove
         OBJLoader.INSTANCE.addDomain("immersivesawmills");
     }
 
@@ -109,6 +111,7 @@ public class ClientProxy extends CommonProxy {
     @Override
     public void init(FMLInitializationEvent e) {
         ClientRegistry.bindTileEntitySpecialRenderer(TileEntitySawmill.class, new TileRenderSawmill());
+//        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityBiomassGenerator.class, new TileRenderBiomassGenerator());
     }
     @Override
     public void postInit(FMLPostInitializationEvent e) {

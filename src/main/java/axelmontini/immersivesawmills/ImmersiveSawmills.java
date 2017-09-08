@@ -39,39 +39,47 @@ public class ImmersiveSawmills {
         {
             return new ItemStack(ISContent.itemWoodchips,1,0);
         }
-    };;
+    };
 
     //Proxy
     @SidedProxy(clientSide = "axelmontini.immersivesawmills.client.ClientProxy", serverSide = "axelmontini.immersivesawmills.common.CommonProxy")
     public static CommonProxy proxy;
 
+    @SuppressWarnings("unused")
     @Mod.Instance(modid)
     public static ImmersiveSawmills instance;
 
-    static {
-        FluidRegistry.enableUniversalBucket();
-    }
+//    static { TODO Uncomment if needed
+//        FluidRegistry.enableUniversalBucket();
+//    }
 
+    @SuppressWarnings("unused")
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event) {
         log  = LogManager.getLogger("Immersive Sawmills");
         log.info("Initializing Core Things! (Pre Init)");
-        Config.preInit(event);
-        ISContent.preInit(event);
+        log.debug("Proxy Preinit");
         proxy.preInit(event);
+        log.debug("Config Preinit");
+        Config.preInit(event);
+        log.debug("Content Preinit");
+        ISContent.preInit(event);
+        log.debug("Proxy Late-Preinit");
         proxy.preInitEnd(event);
     }
 
+    @SuppressWarnings("unused")
     @Mod.EventHandler
     public void init(FMLInitializationEvent event) {
-        log.info("Initializing Things that depends on Core Things!");
+        log.info("Initializing Things that depend on Core Things!");
         ISContent.init(event);
         proxy.init(event);
     }
 
+    @SuppressWarnings("unused")
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event) {
-        log.info("Initializing Things that depends on Things depending on Core Things!");
+        log.info("Initializing Things that depend on Things depending on Core Things!");
         ISContent.postInit(event);
         proxy.postInit(event);
     }

@@ -19,6 +19,7 @@ import net.minecraftforge.common.property.Properties;
 public class BlockMetalMultiblocks extends BlockISMultiblock<BlockTypes_MetalMultiblock> {
     public BlockMetalMultiblocks() {
         super("metalMultiblock", Material.IRON, PropertyEnum.create("type", BlockTypes_MetalMultiblock.class), ItemBlockISBase.class, IEProperties.DYNAMICRENDER,IEProperties.BOOLEANS[0], Properties.AnimationProperty,IEProperties.OBJ_TEXTURE_REMAP);
+        this.lightOpacity = 2;
     }
 
     @Override
@@ -72,4 +73,8 @@ public class BlockMetalMultiblocks extends BlockISMultiblock<BlockTypes_MetalMul
         return true;
     }
 
+    @Override
+    public boolean isFullCube(IBlockState state) {
+        return false;
+    }
 }

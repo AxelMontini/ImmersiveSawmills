@@ -109,11 +109,7 @@ public class MultiblockBiomassGenerator implements MultiblockHandler.IMultiblock
         for(int h = 0; h<3; h++)
             for(int l = 0; l<4; l++)
                 for(int w = 0; w<5; w++) {
-                    if(structure[h][l][w] == null)
-                        continue;   //Skip empties
-
                     BlockPos crosshair = origin.offset(facing, l).offset(UP, h).offset(facing.rotateY(), w);
-
                     world.setBlockState(crosshair, ISContent.blockMetalMultiblock.getStateFromMeta(BlockTypes_MetalMultiblock.BIOMASS_GENERATOR.getMeta()));
                     TileEntity toCheck = world.getTileEntity(crosshair);
                     if(toCheck instanceof TileEntityBiomassGenerator) {
@@ -139,7 +135,7 @@ public class MultiblockBiomassGenerator implements MultiblockHandler.IMultiblock
 
     @Override
     public IngredientStack[] getTotalMaterials() {
-        return new IngredientStack[0];  //TODO
+        return new IngredientStack[0]; //TODO
     }
 
     @Override
@@ -167,6 +163,7 @@ public class MultiblockBiomassGenerator implements MultiblockHandler.IMultiblock
         if(renderStack==null)
             renderStack = new ItemStack(ISContent.blockMetalMultiblock, 1, BlockTypes_MetalMultiblock.BIOMASS_GENERATOR.getMeta());
         GlStateManager.scale(.5, .5, .5);
+        GlStateManager.translate(5,5,5);
         GlStateManager.rotate(180, 0, 1, 0);
         ClientUtils.mc().getRenderItem().renderItem(renderStack, ItemCameraTransforms.TransformType.GUI);
     }

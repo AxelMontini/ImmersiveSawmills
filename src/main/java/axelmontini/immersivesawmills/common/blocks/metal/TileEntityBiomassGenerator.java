@@ -3,13 +3,11 @@ package axelmontini.immersivesawmills.common.blocks.metal;
 import axelmontini.immersivesawmills.api.energy.BiomassHandler;
 import axelmontini.immersivesawmills.common.Config;
 import axelmontini.immersivesawmills.common.blocks.multiblock.MultiblockBiomassGenerator;
-import axelmontini.immersivesawmills.common.utils.MultiStackItemStack;
 import blusunrize.immersiveengineering.api.crafting.IMultiblockRecipe;
 import blusunrize.immersiveengineering.common.blocks.IEBlockInterfaces;
 import blusunrize.immersiveengineering.common.blocks.metal.TileEntityMultiblockMetal;
 import blusunrize.immersiveengineering.common.util.EnergyHelper;
 import blusunrize.immersiveengineering.common.util.Utils;
-import com.google.common.primitives.Ints;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,26 +16,30 @@ import net.minecraft.item.ItemFireball;
 import net.minecraft.item.ItemFlintAndSteel;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTTagInt;
 import net.minecraft.nbt.NBTTagIntArray;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.FluidTank;
 import net.minecraftforge.fluids.IFluidTank;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import net.minecraftforge.oredict.OreDictionary;
-import scala.Int;
 
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
+
+import static net.minecraft.util.EnumFacing.UP;
 
 /**Note: pos 48 is the hopper*/
 public class TileEntityBiomassGenerator extends TileEntityMultiblockMetal<TileEntityBiomassGenerator, IMultiblockRecipe> implements IEBlockInterfaces.IPlayerInteraction {
@@ -315,37 +317,31 @@ public class TileEntityBiomassGenerator extends TileEntityMultiblockMetal<TileEn
 
     @Override
     public float[] getBlockBounds() {
-        if(pos > 39) {
-            if (pos > 52 || pos < 45 ||pos==47)
-                return new float[] {0,0,0,0,0,0};
-            else if(pos==48)
-                return new float[] {0,0,0,1,.75f, 1};
-            else
-                return new float[] {0,0,0,1,.25f, 1};
-        }
+        if(pos == 48)
+            return new float[] {0,0,0,1,0.99f,1};
         return new float[] {0,0,0,1,1,1};
-    }   //TODO
+    }
 
     @Override
     public ItemStack[] getInventory() {
         return null;
-    }//TODO
+    }
 
     @Override
     public boolean isStackValid(int slot, ItemStack stack) {
         return false;
-    }//TODO
+    }
 
     @Override
     public int getSlotLimit(int slot) {
         return 0;
-    }//TODO
+    }
 
+    @SideOnly(Side.CLIENT)
     @Override
     public void doGraphicalUpdates(int slot) {
-        this.markDirty();
-        this.markContainingBlockForUpdate(null);
     }
+
 
     @Override
     public void disassemble() {
@@ -353,7 +349,6 @@ public class TileEntityBiomassGenerator extends TileEntityMultiblockMetal<TileEn
         if(worldObj.isRemote || isDummy())
             return;
         Set<Map.Entry<String, Integer[]>> fuels = BiomassHandler.getCurrentFuelMap().entrySet();
-        //Clusterf**k of pure functional code (bad idea writing this)
         Queue<ItemStack> drop = new ArrayDeque<>();
 
         for(Integer[] fuel : this.fuel) {
@@ -364,7 +359,18 @@ public class TileEntityBiomassGenerator extends TileEntityMultiblockMetal<TileEn
             }
         }
 
-        final BlockPos dropPos = master().getPos().offset(facing.getOpposite());
+        final BlockPos origin = master().getPos();
+
+        final BlockPos dropPos = origin.offset(facing.getOpposite());
         drop.forEach(stack -> Utils.dropStackAtPos(worldObj, dropPos, stack));
     }
+
+
+//    @SideOnly(Side.CLIENT)
+//    @Override
+//    public AxisAlignedBB getRenderBoundingBox() {
+//        return new AxisAlignedBB(getPos(), getPos().offset(facing, 3).offset(facing.rotateY(), 4).offset(UP, 2));
+//    }
+
+
 }

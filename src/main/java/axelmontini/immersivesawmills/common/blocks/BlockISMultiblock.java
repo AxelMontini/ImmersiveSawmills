@@ -1,8 +1,6 @@
 package axelmontini.immersivesawmills.common.blocks;
 
 import blusunrize.immersiveengineering.api.IEProperties;
-import blusunrize.immersiveengineering.common.blocks.BlockIETileProvider;
-import blusunrize.immersiveengineering.common.blocks.ItemBlockIEBase;
 import blusunrize.immersiveengineering.common.blocks.TileEntityMultiblockPart;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.properties.PropertyEnum;

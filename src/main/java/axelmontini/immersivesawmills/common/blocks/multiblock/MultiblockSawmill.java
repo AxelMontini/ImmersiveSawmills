@@ -1,6 +1,5 @@
 package axelmontini.immersivesawmills.common.blocks.multiblock;
 
-import axelmontini.immersivesawmills.ImmersiveSawmills;
 import axelmontini.immersivesawmills.common.ISContent;
 import axelmontini.immersivesawmills.common.blocks.metal.BlockTypes_MetalMultiblock;
 import axelmontini.immersivesawmills.common.blocks.metal.TileEntitySawmill;
@@ -12,7 +11,6 @@ import blusunrize.immersiveengineering.common.IEContent;
 import blusunrize.immersiveengineering.common.blocks.metal.BlockTypes_Conveyor;
 import blusunrize.immersiveengineering.common.blocks.metal.BlockTypes_MetalDecoration0;
 import blusunrize.immersiveengineering.common.blocks.metal.BlockTypes_MetalDecoration1;
-import blusunrize.immersiveengineering.common.blocks.metal.BlockTypes_MetalDecoration2;
 import blusunrize.immersiveengineering.common.util.Utils;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.GlStateManager;
@@ -30,11 +28,6 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import static axelmontini.immersivesawmills.common.utils.MultiblockUtils.getPosOfBlockInStructure;
 import static axelmontini.immersivesawmills.common.utils.MultiblockUtils.isStructureRight;
 import static net.minecraft.util.EnumFacing.*;
-
-//
-//  TODO    --  Add model and render it --
-//
-
 
 /**
  * Multiblock :: It's a sawmill, as the name says.
