@@ -75,6 +75,9 @@ public class Config {
                     new BiomassConfigEntry("immersivesawmills:woodchips", 20, 450)
             };
 
+            @Comment({"The ticks needed to reach full efficiency"})
+            public static float fullEfficiencyTime = 400;
+
             @Comment({"How big can be the stack of fuel contained by the biomass generator"})
             public static int maxFuelStorage = 256;
             @Comment({"How much fuel can burn in parallel: higher value means higher RF output and quicker burn times."})

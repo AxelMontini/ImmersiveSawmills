@@ -1,5 +1,7 @@
 package axelmontini.immersivesawmills.common;
 
+import net.minecraft.util.EnumParticleTypes;
+import net.minecraft.world.World;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
@@ -30,6 +32,10 @@ public class CommonProxy {
     }
 
     public void postInitEnd(FMLPostInitializationEvent e) {
+
+    }
+
+    public void spawnParticleOnlyClient(World world, EnumParticleTypes type, float x, float y, float z, float speedX, float speedY, float speedZ, int... params) {
 
     }
 

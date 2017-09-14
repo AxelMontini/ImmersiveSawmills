@@ -109,6 +109,9 @@ public class MultiblockBiomassGenerator implements MultiblockHandler.IMultiblock
         for(int h = 0; h<3; h++)
             for(int l = 0; l<4; l++)
                 for(int w = 0; w<5; w++) {
+                    if(structure[h][l][w] == null)
+                        continue;
+
                     BlockPos crosshair = origin.offset(facing, l).offset(UP, h).offset(facing.rotateY(), w);
                     world.setBlockState(crosshair, ISContent.blockMetalMultiblock.getStateFromMeta(BlockTypes_MetalMultiblock.BIOMASS_GENERATOR.getMeta()));
                     TileEntity toCheck = world.getTileEntity(crosshair);

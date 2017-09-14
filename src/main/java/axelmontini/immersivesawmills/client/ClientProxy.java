@@ -19,7 +19,9 @@ import net.minecraft.client.renderer.block.model.ModelBakery;
 import net.minecraft.client.renderer.block.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.ResourceLocation;
+import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.client.model.ModelLoaderRegistry;
 import net.minecraftforge.client.model.obj.OBJLoader;
@@ -116,5 +118,10 @@ public class ClientProxy extends CommonProxy {
     @Override
     public void postInit(FMLPostInitializationEvent e) {
 
+    }
+
+    @Override
+    public void spawnParticleOnlyClient(World world, EnumParticleTypes type, float x, float y, float z, float speedX, float speedY, float speedZ, int... params) {
+        world.spawnParticle(type, x,y,z, speedX, speedY, speedZ, params);
     }
 }

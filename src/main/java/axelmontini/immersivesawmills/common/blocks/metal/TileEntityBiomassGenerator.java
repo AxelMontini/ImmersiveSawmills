@@ -1,5 +1,6 @@
 package axelmontini.immersivesawmills.common.blocks.metal;
 
+import axelmontini.immersivesawmills.ImmersiveSawmills;
 import axelmontini.immersivesawmills.api.energy.BiomassHandler;
 import axelmontini.immersivesawmills.common.Config;
 import axelmontini.immersivesawmills.common.blocks.multiblock.MultiblockBiomassGenerator;
@@ -56,8 +57,9 @@ public class TileEntityBiomassGenerator extends TileEntityMultiblockMetal<TileEn
     public final int maxParallelFuel = Config.ISConfig.BiomassFuel.maxFuelParallel;
     /**Burning fuel. Max length; takes the first fuel*/
     private final int[][] burning = new int[maxParallelFuel][];
-
-
+    public final float fullEfficiencyTime = Config.ISConfig.BiomassFuel.fullEfficiencyTime;
+    /**Energy production efficiency, from 0 to 1*/
+    private float efficiency = 0;
 
     /**Water tank.*/
     public FluidTank[] tanks = new FluidTank[] {new FluidTank(5000)};
@@ -69,6 +71,7 @@ public class TileEntityBiomassGenerator extends TileEntityMultiblockMetal<TileEn
     public void readCustomNBT(NBTTagCompound nbt, boolean descPacket) {
         super.readCustomNBT(nbt, descPacket);
         active = nbt.getBoolean("active");
+        efficiency = nbt.getFloat("efficiency");
         tanks[0].readFromNBT(nbt.getCompoundTag("tank_water"));
         if(isDummy())
             return;
@@ -90,6 +93,7 @@ public class TileEntityBiomassGenerator extends TileEntityMultiblockMetal<TileEn
         super.writeCustomNBT(nbt, descPacket);
         nbt.setTag("tank_water", tanks[0].writeToNBT(new NBTTagCompound()));
         nbt.setBoolean("active", active);
+        nbt.setFloat("efficiency", efficiency);
         if(isDummy())
             return;
         //Write out fuel
@@ -147,12 +151,16 @@ public class TileEntityBiomassGenerator extends TileEntityMultiblockMetal<TileEn
             return;
         boolean prevActive = active;
         if(active) {
-            if (worldObj.isRemote) {
-                BlockPos exhaust = getBlockPosForPos(48);
-                worldObj.spawnParticle(EnumParticleTypes.SMOKE_LARGE, exhaust.getX() + .5, exhaust.getY() + .5, exhaust.getZ() + .5, 0, .1, 0);
-            } else {
+            final BlockPos exhaust = getPos().offset(facing).offset(UP, 2).offset(facing.rotateY(), 3);
+            ImmersiveSawmills.proxy.spawnParticleOnlyClient(worldObj, EnumParticleTypes.SMOKE_LARGE, exhaust.getX()+.5f, exhaust.getY()+.1f, exhaust.getZ()+.5f, 0f, 0.2f, 0f, 1, 1 ,1);
+
+            if (!worldObj.isRemote) {
                 if (!isRSDisabled()) {
                     int newEnergy = 0;
+
+                    //Recalculate efficiency
+                    if(efficiency!=1)
+                        efficiency = getNewEfficiency(efficiency, 1);
 
                     //Burn things and produce energy
                     for (int i = 0; i < burning.length; i++) {
@@ -161,7 +169,7 @@ public class TileEntityBiomassGenerator extends TileEntityMultiblockMetal<TileEn
                                 burning[i] = null;
                             else {
                                 burning[i][0]--; //Burn one tick
-                                newEnergy += burning[i][1];
+                                newEnergy += (int) (burning[i][1]*efficiency); //Produce energy based on efficiency and energy/tick value
                             }
                         }
                     }
@@ -191,6 +199,9 @@ public class TileEntityBiomassGenerator extends TileEntityMultiblockMetal<TileEn
                     EnergyHelper.insertFlux(receiver1, facing.rotateY(), newEnergy - en0, false);
                 }
             }
+        } else if (efficiency > 0) {
+            efficiency = getNewEfficiency(efficiency, -2);
+            efficiency = efficiency>0?efficiency:0;
         }
         if(prevActive!=active) {    //Update blocks if state changed
             this.markDirty();
@@ -206,6 +217,19 @@ public class TileEntityBiomassGenerator extends TileEntityMultiblockMetal<TileEn
         }
 
         return false;
+    }
+
+
+    //  X is the elapsed ticks
+    //  Efficiency calculation:
+    // x < fullEfficiencyTime => eff(x) = x/fullEfficiencyTime
+    // x >= fullEfficiencyTime => eff(x) = 1
+    /**@param efficiency the previous efficiency.
+     * @param growth positive/negative value to add to x (intensity of increase/decrease).
+     * @return the new efficiency given the previuous value and Increase/Decrease.*/
+    public float getNewEfficiency(float efficiency, float growth) {
+        final float x = efficiency*fullEfficiencyTime;
+        return (x<fullEfficiencyTime || growth < 0) ? (x+growth)/fullEfficiencyTime : 1f;
     }
 
     public boolean canFireUp(ItemStack stack) {
