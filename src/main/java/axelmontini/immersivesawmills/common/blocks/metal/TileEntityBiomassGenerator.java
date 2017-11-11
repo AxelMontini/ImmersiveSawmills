@@ -67,6 +67,17 @@ public class TileEntityBiomassGenerator extends TileEntityMultiblockMetal<TileEn
     /**True when fired up already.*/
     public boolean active = false;
 
+    /**Intake hopper / exhaust thing*/
+    private double[] exhaustCenterPos = null;
+
+    public double[] getExhaustPos() {
+        if (exhaustCenterPos==null) {
+            BlockPos pos = master().getPos().offset(facing).offset(facing.rotateY(), 3).offset(UP, 2);
+            exhaustCenterPos = new double[] {pos.getX() + .5, pos.getY() + 1, pos.getZ() + .5};
+        }
+        return exhaustCenterPos;
+    }
+
     @Override
     public void readCustomNBT(NBTTagCompound nbt, boolean descPacket) {
         super.readCustomNBT(nbt, descPacket);
@@ -144,6 +155,13 @@ public class TileEntityBiomassGenerator extends TileEntityMultiblockMetal<TileEn
 //        return master().inventory;
 //    }
 
+    private Random random = new Random();
+    /**Returns true if a random genrated value is lower or equal to the given chance*/
+    private boolean doRandomChance(double chance) {
+        return random.nextDouble() <= chance;
+    }
+
+    private final double chance = 0.02;
     @Override
     public void update() {
         super.update();
@@ -151,8 +169,13 @@ public class TileEntityBiomassGenerator extends TileEntityMultiblockMetal<TileEn
             return;
         boolean prevActive = active;
         if(active) {
-            final BlockPos exhaust = getPos().offset(facing).offset(UP, 2).offset(facing.rotateY(), 3);
-            ImmersiveSawmills.proxy.spawnParticleOnlyClient(worldObj, EnumParticleTypes.SMOKE_LARGE, exhaust.getX()+.5f, exhaust.getY()+.1f, exhaust.getZ()+.5f, 0f, 0.2f, 0f, 1, 1 ,1);
+            //Drip effect randomly (some shards of burning woodchips might end out of the generator while dropping in new fuel) (looks good)
+            if (doRandomChance(chance)) {
+                for(int i=0; i<random.nextInt(5); i++)
+                    ImmersiveSawmills.proxy.spawnParticleOnlyClient(worldObj, EnumParticleTypes.FLAME, getExhaustPos()[0], getExhaustPos()[1] + .25f, getExhaustPos()[2], (random.nextDouble()-.5)/3, .125f, (random.nextDouble()-.5)/3);
+            }
+            // Spawn particle only on physical client
+            ImmersiveSawmills.proxy.spawnParticleOnlyClient(worldObj, EnumParticleTypes.SMOKE_LARGE, getExhaustPos()[0], getExhaustPos()[1], getExhaustPos()[2], 0, 0, 0);
 
             if (!worldObj.isRemote) {
                 if (!isRSDisabled()) {
@@ -214,6 +237,7 @@ public class TileEntityBiomassGenerator extends TileEntityMultiblockMetal<TileEn
         if(pos == 48&& canFireUp(heldItem) && !master().fuel.isEmpty()) {
             heldItem.damageItem(3, player);
             master().active = true;  //set active
+            this.updateMasterBlock(null, true);
         }
 
         return false;

@@ -15,6 +15,8 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.network.simpleimpl.SimpleNetworkWrapper;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.minecraftforge.fml.common.registry.IForgeRegistryEntry;
 import org.apache.logging.log4j.LogManager;
@@ -27,31 +29,37 @@ import org.apache.logging.log4j.Logger;
 public class ImmersiveSawmills {
     public static final String modid="immersivesawmills", version = "@VERSION@";
     public static Logger log;
-    public static CreativeTabs creativeTab = new CreativeTabs(modid)
-    {
-        @Override
-        public Item getTabIconItem()
-        {
-            return null;
-        }
-        @Override
-        public ItemStack getIconItemStack()
-        {
-            return new ItemStack(ISContent.itemWoodchips,1,0);
-        }
-    };
+    public static final CreativeTabs creativeTab;
 
     //Proxy
     @SidedProxy(clientSide = "axelmontini.immersivesawmills.client.ClientProxy", serverSide = "axelmontini.immersivesawmills.common.CommonProxy")
     public static CommonProxy proxy;
 
+    //Network wrapper
+    public static final SimpleNetworkWrapper packetHandler;
+
     @SuppressWarnings("unused")
     @Mod.Instance(modid)
     public static ImmersiveSawmills instance;
 
-//    static { TODO Uncomment if needed
+    static {
 //        FluidRegistry.enableUniversalBucket();
-//    }
+        packetHandler = NetworkRegistry.INSTANCE.newSimpleChannel(modid);
+
+        creativeTab = new CreativeTabs(modid)
+        {
+            @Override
+            public Item getTabIconItem()
+            {
+                return null;
+            }
+            @Override
+            public ItemStack getIconItemStack()
+            {
+                return new ItemStack(ISContent.itemWoodchips,1,0);
+            }
+        };
+    }
 
     @SuppressWarnings("unused")
     @Mod.EventHandler

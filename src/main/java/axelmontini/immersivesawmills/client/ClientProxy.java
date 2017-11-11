@@ -121,7 +121,7 @@ public class ClientProxy extends CommonProxy {
     }
 
     @Override
-    public void spawnParticleOnlyClient(World world, EnumParticleTypes type, float x, float y, float z, float speedX, float speedY, float speedZ, int... params) {
+    public void spawnParticleOnlyClient(World world, EnumParticleTypes type, double x, double y, double z, double speedX, double speedY, double speedZ, int... params) {
         world.spawnParticle(type, x,y,z, speedX, speedY, speedZ, params);
     }
 }

@@ -2,7 +2,6 @@ buildscript {
     repositories {
         jcenter()
         maven { url = "http://files.minecraftforge.net/maven" }
-
     }
     dependencies {
         classpath 'net.minecraftforge.gradle:ForgeGradle:2.2-SNAPSHOT'
@@ -13,7 +12,7 @@ apply plugin: 'net.minecraftforge.gradle.forge'
 
 apply plugin: 'idea'
 
-version = "0.1"
+version = "0.1-PREVIEW"
 group= "axelmontini" // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = "ImmersiveSawmills"
 
@@ -71,7 +70,7 @@ dependencies {
     // http://www.gradle.org/docs/current/userguide/dependency_management.html
 
     //Immersive Engineering's deobf jar
-    compile files("./libs/ImmersiveEngineering-0.10-58-deobf.jar")
+    compile files("libs/ImmersiveEngineering-0.10-58-deobf.jar")
 
 //    // compile against the JEI API but do not include it at runtime
     deobfProvided "mezz.jei:jei_${project.minecraft.version}:3.14.7.420:api"
